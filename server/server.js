@@ -13,7 +13,17 @@ var io = socketIO(server);
 app.use(express.static(publicPath));
 
 io.on('connection', (socket) => {
-  console.log('Connected to server')
+  console.log('Connected to server');
+
+  socket.emit('newMessage', {
+    from: 'Daniel',
+    text: 'Hey dude you are cool',
+    createdAt: new Date()
+  });
+
+  socket.on('createMessage', (newMessage) => {
+    console.log('createMessage', newMessage);
+  });
 
   socket.on('disconnect', () => {
     console.log('Disconnected from client');
